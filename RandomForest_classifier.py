@@ -267,9 +267,9 @@ def ApplyModel (rf):
     print ('Classification image created') 
     
     
-################################################################
-# RUN THE ALGORITHM
-################################################################
+#-------------------------------------------------------#
+# Run the algorithm
+#-------------------------------------------------------#
     
 
 #Define paths to input data (imagery and training dataset)
