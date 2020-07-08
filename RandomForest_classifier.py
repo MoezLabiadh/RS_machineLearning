@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 import os
 import numpy as np
@@ -14,6 +13,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, classification_rep
 #-------------------------------------------------------#
 # STEP 1: Prepare the imagery dataset
 #-------------------------------------------------------#
+
 
 def MakeImageComposite (imagery_folder):
     #Browse through the S2 product folder and retrieve the required bands.
@@ -53,8 +53,7 @@ def MakeImageComposite (imagery_folder):
                                                                  'BIGTIFF=YES'])
     outds = gdal.Translate(imgComp, outds, options=translate_options)
 
-    
-    print ('S2 Band Composite created')
+    print ('S2 Band Composite created!')
     
     return imgComp
 
@@ -62,6 +61,7 @@ def MakeImageComposite (imagery_folder):
 #-------------------------------------------------------#
 # STEP 2: Convert the training data from SHP to Raster
 #-------------------------------------------------------#
+
 
 def CreateROIraster (imgComp, roi_shp_path):
     #Open the datasets
@@ -139,13 +139,11 @@ def PrepareArrays (roi_raster):
     img = np.zeros((nrow, ncol, img_ds.RasterCount),
                    gdal_array.GDALTypeCodeToNumericTypeCode(img_ds.GetRasterBand(1).DataType))
      
-    
     #Fill the Array using pixel values from bands
     for band in range(img.shape[2]):
         print ('Adding pixel values from band {b}'. format (b = band + 1))
         img[:, :, band] = img_ds.GetRasterBand(band + 1).ReadAsArray() #Array index starts at 0, Band nbr starts at 1...so we add 1 to each band call.   
         
-    
     #Check if the image has now all the bands
     print ("The image shape is: {shape}" .format (shape = img.shape))  
     
@@ -199,7 +197,6 @@ def TrainModel (X,y):
     cr = classification_report(y_test, prediction_test, target_names=labels)
     print (cr)   
     
-    
     #Compute the Confusion Matrix
     cm = confusion_matrix (y_test, prediction_test)
     #print (cm)
@@ -212,7 +209,6 @@ def TrainModel (X,y):
     
     # Cross-tabulate predictions
     print(pd.crosstab(df['truth'], df['predict'], margins=True))
-    
     
     #Compute the Feature importance. Importance of each band in the Prediction
     bands = ['B', 'G', 'R', 'NIR', 'SWIR1','SWIR2']
@@ -241,7 +237,6 @@ def ApplyModel (rf):
     
     # Reshape the classification back to the original 3D Array format
     class_prediction = class_prediction.reshape(img[:, :, 0].shape)
-    
     
     #Write the output to a new Raster
     #Create a new raster data source
@@ -273,8 +268,8 @@ def ApplyModel (rf):
     
 
 #Define paths to input data (imagery and training dataset)
-workspace = r'F:\tko_root\GIS_WORKSPACE\MLABIADH\PyMe\MachineLearning'
-imagery_folder = r'H:\Profile\Desktop\TRAINING\RS\SnowCoverProject\raw_data\S2B_MSIL2A_20191208T184749_N0213_R070_T11UNQ_20191208T205518.SAFE'
+workspace = r'...\workspace'
+imagery_folder = r'...\workspace\raw_data\S2B_MSIL2A_20191208T184749_N0213_R070_T11UNQ_20191208T205518.SAFE'
 roi_shp_path = os.path.join (workspace, 'inputs','training_data.shp')
 
 #Run the functions
