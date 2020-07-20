@@ -2,6 +2,12 @@
 ## Description of the algorithm
 ## Required packages
 The following packages need to be installed on your Python Env to run the this code:
+Numpy
+Pandas
+Osgeo (gdal and ogr)
+scikit-learn
+![SE Image 1](img/req_packages.png)
+
 ## User inputs
 Running this script requires the folowing user inputs
 - ***1) workspace (folder)***: directory where the script will be executed
