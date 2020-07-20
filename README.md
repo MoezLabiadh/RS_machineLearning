@@ -2,11 +2,11 @@
 ## Description of the algorithm
 ## Required packages
 The following packages need to be installed on your Python Env to run the this code:
-Numpy
-Pandas
-Osgeo (gdal and ogr)
-scikit-learn
-![SE Image 1](img/req_packages.png)
+- Numpy
+- Pandas
+- Osgeo (gdal and ogr)
+- Scikit-learn
+![SE Image 1](img/req.JPG)
 
 ## User inputs
 Running this script requires the folowing user inputs
