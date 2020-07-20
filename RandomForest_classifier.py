@@ -1,4 +1,3 @@
-
 import os
 import numpy as np
 import pandas as pd
@@ -125,7 +124,7 @@ def CreateROIraster (imgComp, roi_shp_path):
 
 
 #-------------------------------------------------------#
-# STEP 3: Prepare the inputs (Arrays) for the Model
+# STEP 3: Prepare inputs (Arrays) for the Model
 #-------------------------------------------------------#
     
 
@@ -176,17 +175,17 @@ def PrepareArrays (roi_raster):
 
 def TrainModel (X,y):
     # Split the data into training and testing sets. Ratio is 80/20%
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 0)
     
     #Create a Random Forest model with 100 Decision Trees
-    rf = RandomForestClassifier(n_estimators=10, random_state = 0, class_weight="balanced")
-    
+    model = RandomForestClassifier(n_estimators=100, random_state = 0, class_weight="balanced")
+
     # Fit our model to training data
-    rf.fit(X_train, y_train)
+    model.fit(X_train, y_train)
     
     ##Evaluate the accuracy of the Model on the Test dataset
     #Predict the Test dataset    
-    prediction_test = rf.predict(X_test)
+    prediction_test = model.predict(X_test)
     
     #Compute the accuracy score
     accracy_score  = accuracy_score(y_test, prediction_test)
@@ -213,18 +212,18 @@ def TrainModel (X,y):
     #Compute the Feature importance. Importance of each band in the Prediction
     bands = ['B', 'G', 'R', 'NIR', 'SWIR1','SWIR2']
     
-    for b, imp in zip(bands, rf.feature_importances_):
+    for b, imp in zip(bands, model.feature_importances_):
         print('Band {b} importance: {imp} %'.format(b=b, imp=imp*100))
     
-    return rf
+    return model
 
 
 #-------------------------------------------------------#
-# STEP 5: Apply the Model to the rest of the image
+# STEP 5: Apply the Model
 #-------------------------------------------------------#
 
 
-def ApplyModel (rf):
+def ApplyModel (model):
     # Rreshape the full image into long 2d array (nrow * ncol, nband) for classification
     new_shape = (img.shape[0] * img.shape[1], img.shape[2])
     
@@ -233,7 +232,7 @@ def ApplyModel (rf):
                                             n=img_as_array.shape))
     
     # Predict for each pixel
-    class_prediction = rf.predict(img_as_array)
+    class_prediction = model.predict(img_as_array)
     
     # Reshape the classification back to the original 3D Array format
     class_prediction = class_prediction.reshape(img[:, :, 0].shape)
@@ -268,8 +267,8 @@ def ApplyModel (rf):
     
 
 #Define paths to input data (imagery and training dataset)
-workspace = r'...\workspace'
-imagery_folder = r'...\workspace\raw_data\S2B_MSIL2A_20191208T184749_N0213_R070_T11UNQ_20191208T205518.SAFE'
+workspace = r'F:\..\RSMachineLearning'
+imagery_folder = r'F:\...\S2B_MSIL2A_....SAFE'
 roi_shp_path = os.path.join (workspace, 'inputs','training_data.shp')
 
 #Run the functions
@@ -277,8 +276,8 @@ def main():
     imgComp = MakeImageComposite (imagery_folder)
     roi_raster = CreateROIraster (imgComp, roi_shp_path)
     X,y = PrepareArrays (roi_raster)
-    rf = TrainModel (X,y)
-    ApplyModel (rf)
+    model = TrainModel (X,y)
+    ApplyModel (model)
     print ('Processing Completed!') 
 
 if __name__ == "__main__":
