@@ -7,6 +7,16 @@ The following packages need to be installed on your Python Env to run the this c
 - Osgeo (gdal and ogr)
 - Scikit-learn
 
+```Python
+import os
+import numpy as np
+import pandas as pd
+from osgeo import ogr
+from osgeo import gdal, gdal_array
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+```
 ![SE Image 1](img/req.JPG)
 
 ## User inputs
