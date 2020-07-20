@@ -25,4 +25,26 @@ Running this script requires the folowing user inputs
 ***2. Imagery path (folder)***: the SAFE (Standard Archive Format for Europe) directory containing the Sentine-2 imagery. e.g.  S2B_MSIL2A_20191208T184749_N0213_R070_T11UNQ_20191208T205518.SAFE
 ***3.  Training dataset path (shapefile)***: The Polgyon Shapefile (.shp) containing the training areas. The shp file must have an "Id" field containing unique Class IDs.
 
-![SE Image 1](img/run.JPG)
+```Python
+#-------------------------------------------------------#
+# Run the algorithm
+#-------------------------------------------------------#
+    
+
+#Define paths to input data (imagery and training dataset)
+workspace = r'C:\...\workspace'
+imagery_folder = r'C:\...\S2B_MSIL2A_20191208T184749_N0213_R070_T11UNQ_20191208T205518.SAFE'
+roi_shp_path = os.path.join (workspace, 'inputs','training_data.shp')
+
+#Run
+def main():
+    imgComp = MakeImageComposite (imagery_folder)
+    roi_raster = CreateROIraster (imgComp, roi_shp_path)
+    X,y = PrepareArrays (roi_raster)
+    model = TrainModel (X,y)
+    ApplyModel (model)
+    print ('Processing Completed!') 
+
+if __name__ == "__main__":
+    main()
+``` 
