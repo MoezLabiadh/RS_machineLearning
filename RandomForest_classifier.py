@@ -45,7 +45,8 @@ def MakeImageComposite (imagery_folder):
     outvrt = '/vsimem/stacked.vrt' #/vsimem is special in-memory gdal virtual "directory"
     
     imgComp = os.path.join (workspace, 'inputs','S2A_' + os.path.basename(Gpath)[:15] + '_Band_Composite.tif')
-    outds = gdal.BuildVRT(outvrt, S2_bands, separate=True)
+    VrtOptions = gdal.BuildVRTOptions(resolution = 'lowest', separate=True)
+    outds = gdal.BuildVRT(outvrt, S2_bands, options = VrtOptions)
     translate_options = gdal.TranslateOptions(format = 'GTiff', 
                                               creationOptions = ['COMPRESS=LZW',
                                                                  'BIGTIFF=YES'])
