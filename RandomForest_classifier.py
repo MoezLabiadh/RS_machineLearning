@@ -15,6 +15,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, classification_rep
 
 def MakeImageComposite (imagery_folder):
     #Browse through the S2 product folder and retrieve the required bands.
+    #Change depending on your input features
     S2_bands = []
     for root, dirs, files in os.walk(imagery_folder):
         for name in files:
