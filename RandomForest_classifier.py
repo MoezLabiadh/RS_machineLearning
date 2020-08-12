@@ -9,7 +9,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, classification_rep
 
 
 #-------------------------------------------------------#
-# STEP 1: Prepare the imagery dataset
+# Prepare the imagery dataset
 #-------------------------------------------------------#
 
 
@@ -58,7 +58,7 @@ def MakeImageComposite (imagery_folder):
 
 
 #-------------------------------------------------------#
-# STEP 2: Convert the training data from SHP to Raster
+# Convert the training data from SHP to Raster
 #-------------------------------------------------------#
 
 
@@ -124,7 +124,7 @@ def CreateROIraster (imgComp, roi_shp_path):
 
 
 #-------------------------------------------------------#
-# STEP 3: Prepare inputs (Arrays) for the Model
+# Prepare inputs (Arrays) for the Model
 #-------------------------------------------------------#
     
 
@@ -169,7 +169,7 @@ def PrepareArrays (roi_raster):
 
 
 #-------------------------------------------------------#
-# STEP 4: Train and Evaluate the Model (Random Forest)
+# Train and Evaluate the Model (Random Forest in this case)
 #-------------------------------------------------------#
     
 
@@ -192,7 +192,7 @@ def TrainModel (X,y):
     print('The Prediction acccuracy score is: {Ascore} %'.format(Ascore = accracy_score*100))
     
     #Compute the Classification report
-    labels = ['Snow', 'Water', 'No Snow', 'Cloud']
+    labels = ['Snow', 'Water', 'No Snow', 'Cloud'] # change depending on your classe names
     cr = classification_report(y_test, prediction_test, target_names=labels)
     print (cr)   
     
@@ -210,7 +210,7 @@ def TrainModel (X,y):
     print(pd.crosstab(df['truth'], df['predict'], margins=True))
     
     #Compute the Feature importance. Importance of each band in the Prediction
-    bands = ['B', 'G', 'R', 'NIR', 'SWIR1','SWIR2']
+    bands = ['B', 'G', 'R', 'NIR', 'SWIR1','SWIR2'] # change depending on your input features
     
     for b, imp in zip(bands, model.feature_importances_):
         print('Band {b} importance: {imp} %'.format(b=b, imp=imp*100))
@@ -219,7 +219,7 @@ def TrainModel (X,y):
 
 
 #-------------------------------------------------------#
-# STEP 5: Apply the Model
+# Apply the Model
 #-------------------------------------------------------#
 
 
