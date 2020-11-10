@@ -14,6 +14,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, classification_rep
 
 
 def MakeImageComposite (imagery_folder):
+    """Returns a multiband image based on Sentinel-2 imagery folder"""
     #Browse through the S2 product folder and retrieve the required bands.
     #Change depending on your input features
     S2_bands = []
@@ -64,7 +65,7 @@ def MakeImageComposite (imagery_folder):
 
 
 def CreateROIraster (imgComp, roi_shp_path):
-    #Open the datasets
+    """Returns training data in raster format based on shp input"""
     try:
         global img_ds
         img_ds = gdal.Open(imgComp)
@@ -130,7 +131,7 @@ def CreateROIraster (imgComp, roi_shp_path):
     
 
 def PrepareArrays (roi_raster):
-    #Open the ROI raster    
+    """Returns model inputs: feature and label arrays""" 
     roi_ds = gdal.Open(roi_raster) 
     
     ##Create an Array containing the S2 imagery bands
@@ -175,6 +176,7 @@ def PrepareArrays (roi_raster):
     
 
 def TrainModel (X,y):
+    """Returns a RF classifier"""
     # Split the data into training and testing sets. Ratio is 80/20%
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 0)
     
@@ -225,6 +227,7 @@ def TrainModel (X,y):
 
 
 def ApplyModel (model):
+    """Applies the model to the entire Sentinel-2 image"""
     # Rreshape the full image into long 2d array (nrow * ncol, nband) for classification
     new_shape = (img.shape[0] * img.shape[1], img.shape[2])
     
