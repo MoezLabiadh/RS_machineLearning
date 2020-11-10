@@ -1,6 +1,6 @@
 # Sentinel-2 Random Forest Classifier
 ## Description of the algorithm
-This project showcase how to train and apply a Random Forest model for the classification of Sentinel-2 imagery.
+This project showcases how to train and apply a Random Forest model for the classification of Sentinel-2 imagery.
 
 The workflow is intended to serve as recipe for the developement of Prediction models (Regression and Classification) based on Machine Learning algorithms (Random Forest, KNN, SVM, K-means...) in a Geospatial context.
 
