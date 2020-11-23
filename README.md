@@ -62,5 +62,8 @@ def main():
 if __name__ == "__main__":
     main()
 ``` 
+Example training data shp is provided in the test_data folder
+
+
 ## Contributions
 All contributions are welcome.
